@@ -9,10 +9,16 @@ public class DB
 {
     private readonly string _connectedString = "Data Source = app.db";
 
+    
     public void CriarTabela()
     {
         using var connection = new SqliteConnection(_connectedString);
         connection.Open();
+
+        var pragma = connection.CreateCommand();
+        pragma.CommandText = "PRAGMA foreign_keys = ON;";
+        pragma.ExecuteNonQuery();
+
 
         var createTable = connection.CreateCommand();
         createTable.CommandText = @" CREATE TABLE IF NOT EXISTS cliente(
@@ -34,7 +40,7 @@ public class DB
         criarcliente.ExecuteNonQuery();
     }
     
-
+    
     public void InserirDadosCliente(Cliente cliente)
     {
         using var connection = new SqliteConnection(_connectedString);
