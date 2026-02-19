@@ -5,7 +5,6 @@
 
 # dotenv files
 .env
-.db
 
 # User-specific files
 *.rsuser
@@ -35,6 +34,14 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
+# Data Base
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/*.mdf
+**/*.ldf
+
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
