@@ -65,6 +65,8 @@ public class DB
         criarConta.CommandText = "insert into contabancaria (titular_id, saldo) values (@cpf, 0)";
         criarConta.Parameters.AddWithValue("@cpf", titular.CPF);
 
+        criarConta.ExecuteNonQuery();
+        
     }
 
     public bool ClienteExiste(string cpf)
