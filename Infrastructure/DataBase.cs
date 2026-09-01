@@ -42,67 +42,20 @@ public class DB
     
     
     public void InserirDadosCliente(Cliente cliente)
-    {
-        using var connection = new SqliteConnection(_connectedString);
-        connection.Open();
-
-        var insert = connection.CreateCommand();
-
-        insert.CommandText = "Insert into cliente (nome, cpf) Values (@nome, @cpf)";
-        insert.Parameters.AddWithValue("@nome", cliente.Nome);
-        insert.Parameters.AddWithValue("@cpf", cliente.CPF);
-
-        insert.ExecuteNonQuery();
+    {   
     }
 
     public void CriarContaCliente(Cliente titular)
-    {
-        using var connection = new SqliteConnection(_connectedString);
-        connection.Open();
-
-        var criarConta = connection.CreateCommand();
-
-        criarConta.CommandText = "insert into contabancaria (titular_id, saldo) values (@cpf, 0)";
-        criarConta.Parameters.AddWithValue("@cpf", titular.CPF);
-
-        criarConta.ExecuteNonQuery();
-        
+    {   
     }
 
     public bool ClienteExiste(string cpf)
     {
-        using var connection = new SqliteConnection(_connectedString);
-        connection.Open();
-
-        var busca = connection.CreateCommand();
-
-        busca.CommandText = "Select cpf From cliente Where cpf = @cpf";
-        busca.Parameters.AddWithValue("@cpf", cpf);
-
-        using var reader = busca.ExecuteReader();
-
-        return reader.Read();
+        
     }
 
     public string? PuxarDados(string cpf)
     {
-        using var connection = new SqliteConnection(_connectedString);
-        connection.Open();
-
-        var puxar = connection.CreateCommand();
-
-        puxar.CommandText = "Select nome, cpf From cliente Where cpf = @cpf";
-        puxar.Parameters.AddWithValue("@cpf", cpf);
-
-        using var reader = puxar.ExecuteReader();
-
-        if(reader.Read())
-        {
-            var nome = reader.GetString(0);
-            return nome;
-        }
-
-        return null;
     }
 
     public void AtualizarSaldo(Cliente c, double valor)
