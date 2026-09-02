@@ -12,19 +12,21 @@ using B2B.Service;
 class Programa 
 {
 
-    static void Main()
+    static async Task Main()
     {
         var DB = new DB();
         var Auth = new AuthService();
         var menu = new Menus(Auth);
 
-        menu.EntradaAnim();
+        await Menus.EntradaAnim();
         Menus.MenuEntrada();
 
         if(Auth.Login())
         {
             menu.MenuPrincipal();
         }
+
+        Console.Clear();
         
     }
 }

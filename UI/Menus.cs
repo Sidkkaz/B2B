@@ -33,7 +33,7 @@ public class Menus
         await TypeWrite("\n-----------------------------\n");
         await Task.Delay(1000);
         
-        await TypeWrite("\nO seu incrivel, sla oq é isso\n");
+        await TypeWrite("\n------- SEJA BEM-VINDO -------\n");
         await Task.Delay(1000);
         
         await TypeWrite("\n------------------------------\n");
