@@ -22,8 +22,8 @@ public class DB
         var createTable = connection.CreateCommand();
         createTable.CommandText = @" CREATE TABLE IF NOT EXISTS cliente(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT,
-        cpf TEXT Unique
+        nome TEXT NOT NULL,
+        cpf TEXT NOT NULL UNIQUE
         )";
 
         createTable.ExecuteNonQuery();
@@ -31,8 +31,8 @@ public class DB
         var criarcliente = connection.CreateCommand();
         criarcliente.CommandText = @" CREATE TABLE IF NOT EXISTS contabancaria(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titular_id Text,
-        saldo Real,
+        titular_id TEXT NOT NULL,
+        saldo REAL NOT NULL DEFAULT 0,
         FOREIGN KEY (titular_id) REFERENCES cliente(cpf)
         )";
 
@@ -40,4 +40,3 @@ public class DB
     }
 
 }
-    
