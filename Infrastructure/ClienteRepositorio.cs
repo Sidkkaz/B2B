@@ -67,6 +67,4 @@ namespace B2B.Infrastructure;
 
             return clientes;
         }
-
-        private void Update(Cliente c){}
     }

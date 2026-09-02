@@ -1,6 +1,6 @@
 class ContaBancariaService{
 
-    IRepositorio repo = new ContaBancariaRepositorio(); 
+    IRepositorioUpdate repo = new ContaBancariaRepositorio(); 
 
     public static void AdicionarConta(ContaBancaria c){
         repo.Add(c);

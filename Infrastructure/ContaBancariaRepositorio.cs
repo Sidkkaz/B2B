@@ -1,6 +1,6 @@
 namespace B2B.Infrastructure;
 
-class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
+class ContaBancariaRepositorio : IRepositorioUpdate<ContaBancaria>{
 
     private const string _connectedString = "Data Source = app.db";
     
@@ -14,7 +14,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
         criarConta.CommandText = """
             INSERT INTO contabancaria 
             (titular_id, saldo)
-            VALUES (@saldo, 0)
+            VALUES (@titular_id, @saldo)
         """;
 
         criarConta.Parameters.AddWithValue("@titular_id", c.Titular.CPF);
@@ -56,7 +56,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
             var titularId = reader.GetString(1);
             var saldo = reader.GetDouble(2);
 
-            var c = new ContaBancaria{Titular = titularId, Saldo = saldo};
+            var c = new ContaBancaria{Titular = ClienteService.Buscar(TitularId), Saldo = saldo};
             c.Id = id;
 
             Contas.Add(c);

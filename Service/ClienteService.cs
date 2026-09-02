@@ -13,5 +13,10 @@ class ClienteSerivce{
     public static void RemoverCliente(Cliente c){
         repo.Remove(c)
     }
+
+    public static Cliente Busca(string cpf){
+        List<Cliente> clientes = ListarClientes();
+        return clientes.Where(x => x.CPF == cpf).ToList();
+    }
     
 }

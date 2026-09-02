@@ -1,9 +1,3 @@
-using System.Runtime.CompilerServices;
-using B2B.Domain;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-
 namespace B2B.Infrastructure;
 
 public class DB
