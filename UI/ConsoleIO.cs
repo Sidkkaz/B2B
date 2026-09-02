@@ -9,21 +9,21 @@ public static class ConsoleIO
     {
         var x = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(x))
-            throw new Exception("Entrada inválida");
+            throw new Exception("Valor inválida");
         return x;
     }
 
     public static int InputI()
     {
         if (!int.TryParse(Console.ReadLine(), out var x))
-            throw new Exception("Número inválido");
+            throw new Exception("Valor inválido");
         return x;
     }
 
     public static double InputD()
     {
         if (!double.TryParse(Console.ReadLine(), out var x))
-            throw new Exception("Número inválido");
+            throw new Exception("Valor inválido");
         return x;
     }
 }

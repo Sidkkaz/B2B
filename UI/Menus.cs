@@ -34,7 +34,7 @@ class Menus
         
     }
     
-    public static void MenuPrincipal(Cliente c, ContaBancaria b, DB DB){
+    public static void MenuPrincipal(){
         
         
         while(true)

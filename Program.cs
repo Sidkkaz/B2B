@@ -22,30 +22,14 @@ class Programa
         var DB = new DB();
 
         Menus.MenuEntrada();
-        var (nome, cpf) = Entrada.ELogin(DB);
-        var cliente = CriarCliente(nome!, cpf!, DB);
-        var conta = CriarConta(cliente!, DB.BuscarSaldo(cliente!));
-        Menus.MenuPrincipal(cliente!, conta, DB);
+
+        if(Entrada.Auth())
+        {
+            Menus.MenuPrincipal();
+        }
         
     }
     
-    static Cliente? CriarCliente(string nome, string cpf, DB db)
-    {
-        if(string.IsNullOrWhiteSpace(nome))
-        {
-            nome = db.PuxarDados(cpf!) ?? throw new Exception("Nome Inexistente");
-            var c = new Cliente(nome!, cpf!);
-            return c;
-        }
-        else
-        {
-            var c = new Cliente(nome!, cpf!);
-            db.InserirDadosCliente(c);
-            db.CriarContaCliente(c);
-            return c;
-        }
-        
-    }
     static ContaBancaria CriarConta(Cliente titular, double saldo)
     {
         if(titular == null)
@@ -59,29 +43,24 @@ class Programa
 
 class Entrada
 {
-    public static (string? nome, string? cpf) ELogin(DB dB)
+    public static bool Auth()
     {
-        string cpfLimpo = "";
         string cpf;
 
         Output("Coloque Seu CPF: ");
         try
         {
-            cpf = InputS();
+            cpf = Cliente.CPFLimpo(InputS());
         }
         catch
         {
             throw new Exception("Tentativa Invalida");
         }
 
-        if(string.IsNullOrWhiteSpace(cpf))
-            throw new Exception("Cpf invalido");
-
-        if(cpf.Length == 11 || cpf.Length == 14)
+        if(cpf.Length == 11)
         {
-            cpfLimpo = Cliente.CPFLimpo(cpf);
-
-            if (!ClienteService.ListarClientes().Where(x => c.CPF == cpfLimpo))
+            
+            if (!ClienteService.ListarClientes().Where(x => c.CPF == cpf))
             {
                 Output("Vi que voce ainda nao tem cadastro!\n");
                 Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
@@ -89,17 +68,29 @@ class Entrada
                 try
                 {
                     var nome = InputS();
+
                     if(string.IsNullOrWhiteSpace(nome))
                         throw new Exception("Nome Invalido");
 
                     if(nome.Length < 3)
                         throw new Exception("Nome Invalido");
-                    return (nome, cpfLimpo);
+
+                    ClienteService.AdicionarCliente(new Cliente{Nome = nome, CPF = cpf});
+                    ContaBancariaService.AdicionarConta(new ContaBancaria{
+                        new Cliente{Nome = nome, CPF = cpf}, 0
+                    });
+
+                    return true;
                 }
                 catch
                 {
                     throw new Exception("Tentativa Invalida");
                 }
+
+            }
+
+            if(ClienteService.ListarClientes().Where(x => c.CPF == cpf)){
+                return true;
             }
 
         }
@@ -107,8 +98,8 @@ class Entrada
         {
             throw new Exception("Cpf Invalido");
         }
-        
 
-        return (null, cpfLimpo);
+        return false;
+        
     }
 }
