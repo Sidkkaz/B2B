@@ -1,4 +1,5 @@
 namespace B2B.Domain;
+
 public class ContaBancaria
 {
 

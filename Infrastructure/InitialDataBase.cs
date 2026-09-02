@@ -1,3 +1,6 @@
+using B2B.Domain;
+using Microsoft.Data.Sqlite;
+
 namespace B2B.Infrastructure;
 
 public class DB

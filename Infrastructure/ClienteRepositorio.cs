@@ -1,3 +1,6 @@
+using B2B.Domain;
+using Microsoft.Data.Sqlite;
+
 namespace B2B.Infrastructure;
     
     class ClienteRepositorio : IRepositorio<Cliente>{
@@ -59,7 +62,7 @@ namespace B2B.Infrastructure;
                 var nome = reader.GetString(1);
                 var cpf = reader.GetString(2);
 
-                var c = new Cliente{Nome = nome, CPF = cpf};
+                var c = new Cliente(nome, cpf);
                 c.Id = id;
 
                 clientes.Add(c);

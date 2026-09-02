@@ -9,6 +9,7 @@ using System.Data;
 using B2B.UI;
 using B2B.Domain;
 using B2B.Infrastructure;
+using B2B.Service;
 using static B2B.UI.ConsoleIO;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -23,7 +24,7 @@ class Programa
 
         Menus.MenuEntrada();
 
-        if(Entrada.Auth())
+        if(AuthService.Login())
         {
             Menus.MenuPrincipal();
         }

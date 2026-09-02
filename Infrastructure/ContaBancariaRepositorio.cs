@@ -1,3 +1,7 @@
+using B2B.Domain;
+using Microsoft.Data.Sqlite;
+using B2B.Service;
+
 namespace B2B.Infrastructure;
 
 class ContaBancariaRepositorio : IRepositorioUpdate<ContaBancaria>{
@@ -56,7 +60,7 @@ class ContaBancariaRepositorio : IRepositorioUpdate<ContaBancaria>{
             var titularId = reader.GetString(1);
             var saldo = reader.GetDouble(2);
 
-            var c = new ContaBancaria{Titular = ClienteService.Buscar(TitularId), Saldo = saldo};
+            var c = new ContaBancaria(ClienteService.Buscar(titularId), saldo);
             c.Id = id;
 
             Contas.Add(c);

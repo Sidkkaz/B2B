@@ -1,10 +1,10 @@
-using B2B.Domain;
-using B2B.Infrastructure;
+using static B2B.UI.ConsoleIO;
 
 namespace B2B.UI;
 
 class Menus
 {
+
     static void Output(string t){
         Console.WriteLine($"{t}");
     }
@@ -64,7 +64,7 @@ class Menus
                 case 1:
                 Console.Clear();
                 Console.WriteLine("\n");
-                Console.WriteLine($"Saldo Atual: {b.Saldo:C}");
+                ContaBancariaService.MostrarSaldo();
 
                 break;  
                 
@@ -75,8 +75,7 @@ class Menus
                     Console.WriteLine("\n");
                     Console.WriteLine("Valor a Depositar: ");
                     valor = ConsoleIO.InputD();
-                    b.Depositar(valor);
-                    DB.AtualizarSaldo(c, valor);
+                    ContaBancariaService.Depositar(valor);
                     Output("\nValor Depositado!"); 
 
                 }catch(Exception ex)
@@ -92,8 +91,7 @@ class Menus
                     Console.WriteLine("\n");
                     Console.WriteLine("Valor a Sacar: ");
                     valor = ConsoleIO.InputD();
-                    b.Sacar(valor);
-                    DB.AtualizarSaldo(c, valor);
+                    ContaBancariaService.Sacar(valor);
                     Output("\nSaque Concluido!"); 
                 
                 }catch(Exception ex)
@@ -104,9 +102,7 @@ class Menus
                 
                 case 4:
                 Console.Clear();
-                Output("Titular: " + b.Titular.Nome);
-                Output("\nCPF: " + b.Titular.CPFFormatado());
-                Output($"\nSaldo: {b.Saldo:C}"); 
+                ClienteService.MostrarDados();
                 break;
 
                 case 0:

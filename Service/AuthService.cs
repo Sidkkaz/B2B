@@ -1,13 +1,22 @@
-class AuthService
+using B2B.Infrastructure;
+using B2B.Domain;
+using B2B.UI;
+
+
+namespace B2B.Service;
+
+public class AuthService
 {
+    public Cliente c;
+
     public static bool Login()
     {
         string cpf;
 
-        Output("Coloque Seu CPF: ");
+        ConsoleIO.Output("Coloque Seu CPF: ");
         try
         {
-            cpf = Cliente.CPFLimpo(InputS());
+            cpf = Cliente.CPFLimpo(ConsoleIO.InputS());
         }
         catch
         {
@@ -17,13 +26,13 @@ class AuthService
         if(cpf.Length == 11)
         {
             
-            if (!ClienteService.ListarClientes().Where(x => c.CPF == cpf))
+            if (!ClienteService.ListarClientes().FistOrDefault(x => c.CPF == cpf))
             {
                 CompletarCadastro(cpf);
                 return true;
             }
 
-            if(ClienteService.ListarClientes().Where(x => c.CPF == cpf)){
+            if(ClienteService.ListarClientes().FirstOrDefault(x => c.CPF == cpf)){
                 return true;
             }
 
@@ -37,15 +46,15 @@ class AuthService
         
     }
 
-    public static void CompletarCadastro(cpf)
+    public static void CompletarCadastro(string cpf)
     {
-        Output("Vi que voce ainda nao tem cadastro!\n");
-        Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
-        Output("Me envie seu nome completo, pfv: ");
+        ConsoleIO.Output("Vi que voce ainda nao tem cadastro!\n");
+        ConsoleIO.Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
+        ConsoleIO.Output("Me envie seu nome completo, pfv: ");
             
             try
             {
-                var nome = InputS();
+                var nome = ConsoleIO.InputS();
 
                 if(string.IsNullOrWhiteSpace(nome))
                     throw new Exception("Nome Invalido");
@@ -53,7 +62,7 @@ class AuthService
                 if(nome.Length < 3)
                     throw new Exception("Nome Invalido");
 
-                var c = new Cliente{Nome = nome, CPF = cpf}
+                c = new Cliente{Nome = nome, CPF = cpf};
                 ClienteService.AdicionarCliente(c);
                 ContaBancariaService.AdicionarConta(new ContaBancaria{c, 0});
 
@@ -63,6 +72,4 @@ class AuthService
                 throw new Exception("Tentativa Invalida");
             }
     }
-
-
 }

@@ -1,22 +1,39 @@
-class ClienteSerivce{
+using B2B.Infrastructure;
+using B2B.Domain;
 
-    IRepositorio repo = new ClienteRepositorio(); 
+namespace B2B.Service;
 
-    public static void AdicionarCliente(Cliente c){
+public class ClienteSerivce{
+
+    private IRepositorio<Cliente> repo = new ClienteRepositorio();
+    private ContaBancariaService ContaService = new ContaBancariaService();
+
+    public void AdicionarCliente(Cliente c){
         repo.Add(c);
     }
 
-    public static List<Cliente> ListarClientes(){
+    public List<Cliente> ListarClientes(){
         return repo.Query();
     }
 
-    public static void RemoverCliente(Cliente c){
-        repo.Remove(c)
+    public void RemoverCliente(Cliente c){
+        repo.Remove(c);
     }
 
-    public static Cliente Busca(string cpf){
+    public Cliente Busca(string cpf){
         List<Cliente> clientes = ListarClientes();
-        return clientes.Where(x => x.CPF == cpf).ToList();
+        return clientes.FirstOrDefault(x => x.CPF == cpf);
+    }
+
+    public void MostarDados(Cliente c){
+        var b = ContaService.Buscar(c.CPF);
+
+        if(b == null)
+            throw new Exception("Conta não encontrada");
+
+        Output("Titular: " + c.Nome);
+        Output("\nCPF: " + c.CPFFormatado());
+        Output($"\nSaldo: {b.Saldo:C}"); 
     }
     
 }
