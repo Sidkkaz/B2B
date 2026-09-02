@@ -18,6 +18,7 @@ class Programa
         var Auth = new AuthService();
         var menu = new Menus(Auth);
 
+        menu.EntradaAnim();
         Menus.MenuEntrada();
 
         if(Auth.Login())
