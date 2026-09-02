@@ -20,7 +20,6 @@ class Programa
     static void Main()
     {
         var DB = new DB();
-        DB.CriarTabela();
 
         Menus.MenuEntrada();
         var (nome, cpf) = Entrada.ELogin(DB);
@@ -29,7 +28,6 @@ class Programa
         Menus.MenuPrincipal(cliente!, conta, DB);
         
     }
-    
     
     static Cliente? CriarCliente(string nome, string cpf, DB db)
     {

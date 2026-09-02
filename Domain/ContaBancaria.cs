@@ -1,12 +1,13 @@
 namespace B2B.Domain;
 public class ContaBancaria
 {
+
+    public int Id;
     private double _saldo;
 
     public Cliente Titular { get; private set; }
 
-    public double Saldo
-    {
+    public double Saldo{
         get => _saldo;
         private set
         {

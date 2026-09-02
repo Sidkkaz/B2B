@@ -1,4 +1,4 @@
-class ContaBancariaService{
+class ClienteSerivce{
 
     IRepositorio repo = new ClienteRepositorio(); 
 

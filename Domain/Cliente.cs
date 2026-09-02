@@ -2,6 +2,7 @@ namespace B2B.Domain;
 
 public class Cliente
 {
+    public int Id;
     public string Nome {get;}
     public string CPF {get;}
 

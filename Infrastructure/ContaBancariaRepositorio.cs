@@ -1,6 +1,6 @@
 class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
-    private readonly string _connectedString = "Data Source = app.db";
+    private const string _connectedString = "Data Source = app.db";
     
     static void Add(ContaBancaria c){
         
@@ -16,11 +16,42 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
     }
 
     static void Remove(ContaBancaria c){
+        using var connection = new SqliteConnection(_connectedString);
+        connection.Open();
+
+        var sql = connection.CreateCommand();
+
+        sql.CommandText = "Delete FROM contabancaria WHERE id = @id";
+        sql.Parameters.AddWithValue("@id", c.Id);
+
+        sql.ExecuteNonQuery();
 
     }
 
     static List<ContaBancaria> Query(){
+        using var connection = new SqliteConnection(_connectedString);
+        connection.Open();
 
+        var Contas = new List<ContaBancaria>();
+
+        var busca = connection.CreateCommand();
+
+        busca.CommandText = "Select id, titular_id, saldo FROM contabancaria";
+
+        using var reader = busca.ExecuteReader();
+
+        if(reader.Read()){
+            var id = reader.GetInt32(0);
+            var titularId = reader.GetString(1);
+            var saldo = reader.GetDouble(2);
+
+            var c = new ContaBancaria{Titular = titularId, Saldo = saldo};
+            c.Id = id;
+
+            Contas.Add(c);
+        }
+
+        return Contas;
     }
 
     static void Update(ContaBancaria c){
