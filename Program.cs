@@ -21,12 +21,14 @@ class Programa
     static void Main()
     {
         var DB = new DB();
+        var Auth = new AuthService();
+        var menu = new Menus();
 
         Menus.MenuEntrada();
 
-        if(AuthService.Login())
+        if(Auth.Login())
         {
-            Menus.MenuPrincipal();
+            menu.MenuPrincipal();
         }
         
     }

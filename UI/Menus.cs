@@ -1,9 +1,14 @@
 using static B2B.UI.ConsoleIO;
+using B2B.Service;
 
 namespace B2B.UI;
 
-class Menus
+public class Menus
 {
+
+    private ClienteService _ClienteService = new ClienteService();
+    private ContaBancariaService ContaService = new ContaBancariaService();
+    private AuthService Auth = new AuthService();
 
     static void Output(string t){
         Console.WriteLine($"{t}");
@@ -34,8 +39,9 @@ class Menus
         
     }
     
-    public static void MenuPrincipal(){
-        
+    public void MenuPrincipal(){
+
+        var Cliente = Auth.Sessao();
         
         while(true)
         {
@@ -64,7 +70,7 @@ class Menus
                 case 1:
                 Console.Clear();
                 Console.WriteLine("\n");
-                ContaBancariaService.MostrarSaldo();
+                ContaService.MostrarSaldo(Cliente);
 
                 break;  
                 
@@ -75,7 +81,7 @@ class Menus
                     Console.WriteLine("\n");
                     Console.WriteLine("Valor a Depositar: ");
                     valor = ConsoleIO.InputD();
-                    ContaBancariaService.Depositar(valor);
+                    ContaService.Depositar(Cliente, valor);
                     Output("\nValor Depositado!"); 
 
                 }catch(Exception ex)
@@ -91,7 +97,7 @@ class Menus
                     Console.WriteLine("\n");
                     Console.WriteLine("Valor a Sacar: ");
                     valor = ConsoleIO.InputD();
-                    ContaBancariaService.Sacar(valor);
+                    ContaService.Sacar(Cliente, valor);
                     Output("\nSaque Concluido!"); 
                 
                 }catch(Exception ex)
@@ -102,7 +108,7 @@ class Menus
                 
                 case 4:
                 Console.Clear();
-                ClienteService.MostrarDados();
+                _ClienteService.MostrarDados(Cliente);
                 break;
 
                 case 0:

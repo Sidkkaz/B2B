@@ -1,9 +1,10 @@
 using B2B.Infrastructure;
 using B2B.Domain;
+using static B2B.UI.ConsoleIO;
 
 namespace B2B.Service;
 
-public class ClienteSerivce{
+public class ClienteService{
 
     private IRepositorio<Cliente> repo = new ClienteRepositorio();
     private ContaBancariaService ContaService = new ContaBancariaService();
@@ -20,12 +21,13 @@ public class ClienteSerivce{
         repo.Remove(c);
     }
 
-    public Cliente Busca(string cpf){
-        List<Cliente> clientes = ListarClientes();
-        return clientes.FirstOrDefault(x => x.CPF == cpf);
+    public Cliente? Buscar(string cpf)
+    {
+        return ListarClientes()
+            .FirstOrDefault(x => x.CPF == cpf);
     }
 
-    public void MostarDados(Cliente c){
+    public void MostrarDados(Cliente c){
         var b = ContaService.Buscar(c.CPF);
 
         if(b == null)

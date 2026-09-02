@@ -2,18 +2,21 @@ using B2B.Infrastructure;
 using B2B.Domain;
 using B2B.UI;
 
-
 namespace B2B.Service;
 
 public class AuthService
 {
-    public Cliente c;
+    private ClienteService _ClienteService = new ClienteService();
+    private ContaBancariaService ContaService = new ContaBancariaService();
 
-    public static bool Login()
+    public Cliente? ClienteAtual;
+
+    public bool Login()
     {
+        ConsoleIO.Output("Coloque Seu CPF: ");
+
         string cpf;
 
-        ConsoleIO.Output("Coloque Seu CPF: ");
         try
         {
             cpf = Cliente.CPFLimpo(ConsoleIO.InputS());
@@ -23,53 +26,50 @@ public class AuthService
             throw new Exception("Tentativa Invalida");
         }
 
-        if(cpf.Length == 11)
-        {
-            
-            if (!ClienteService.ListarClientes().FistOrDefault(x => c.CPF == cpf))
-            {
-                CompletarCadastro(cpf);
-                return true;
-            }
-
-            if(ClienteService.ListarClientes().FirstOrDefault(x => c.CPF == cpf)){
-                return true;
-            }
-
-        }
-        else
-        {
+        if (cpf.Length != 11)
             throw new Exception("Cpf Invalido");
+
+        var cliente = _ClienteService.ListarClientes()
+            .FirstOrDefault(x => x.CPF == cpf);
+
+        if (cliente == null)
+        {
+            CompletarCadastro(cpf);
+            return true;
         }
 
-        return false;
-        
+        ClienteAtual = cliente;
+        return true;
     }
 
-    public static void CompletarCadastro(string cpf)
+    public void CompletarCadastro(string cpf)
     {
         ConsoleIO.Output("Vi que voce ainda nao tem cadastro!\n");
         ConsoleIO.Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
         ConsoleIO.Output("Me envie seu nome completo, pfv: ");
-            
-            try
-            {
-                var nome = ConsoleIO.InputS();
 
-                if(string.IsNullOrWhiteSpace(nome))
-                    throw new Exception("Nome Invalido");
+        try
+        {
+            var nome = ConsoleIO.InputS();
 
-                if(nome.Length < 3)
-                    throw new Exception("Nome Invalido");
+            if (string.IsNullOrWhiteSpace(nome) || nome.Length < 3)
+                throw new Exception("Nome Invalido");
 
-                c = new Cliente{Nome = nome, CPF = cpf};
-                ClienteService.AdicionarCliente(c);
-                ContaBancariaService.AdicionarConta(new ContaBancaria{c, 0});
+            ClienteAtual = new Cliente(nome, cpf);
 
-            }
-            catch
-            {
-                throw new Exception("Tentativa Invalida");
-            }
+            _ClienteService.AdicionarCliente(ClienteAtual);
+
+            ContaService.AdicionarConta(
+                new ContaBancaria(ClienteAtual, 0)
+            );
+        }
+        catch
+        {
+            throw new Exception("Tentativa Invalida");
+        }
+    }
+
+    public Cliente? Sessao(){
+        return ClienteAtual;
     }
 }

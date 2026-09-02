@@ -27,7 +27,7 @@ public class Cliente
         CPF = cpflimpo;
     }
 
-    public string CPFFormatado(string CPF)
+    public string CPFFormatado()
     {
         return CPF
         .Insert(9, "-")
@@ -35,7 +35,7 @@ public class Cliente
         .Insert(3,".");
     }
 
-    public string CPFLimpo(string CPF){
+    public static string CPFLimpo(string CPF){
         return CPF
         .Replace(".","")
         .Replace("-","");

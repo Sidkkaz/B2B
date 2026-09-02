@@ -54,7 +54,7 @@ public class ContaBancariaService{
 
     }
     
-    public ContaBancaria Buscar(String cpf){
+    public ContaBancaria? Buscar(String cpf){
         return ListarContas().FirstOrDefault(x => x.Titular.CPF == cpf);
     }
     

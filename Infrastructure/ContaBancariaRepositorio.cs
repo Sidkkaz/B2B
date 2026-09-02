@@ -49,21 +49,33 @@ class ContaBancariaRepositorio : IRepositorioUpdate<ContaBancaria>{
         var busca = connection.CreateCommand();
 
         busca.CommandText = """
-        SELECT id, titular_id, saldo 
-        FROM contabancaria
+        SELECT
+        cb.id,
+        cb.saldo,
+        c.id,
+        c.nome,
+        c.cpf
+        FROM contabancaria cb
+        JOIN cliente c ON c.cpf = cb.titular_id
         """;
 
         using var reader = busca.ExecuteReader();
 
         while(reader.Read()){
-            var id = reader.GetInt32(0);
-            var titularId = reader.GetString(1);
-            var saldo = reader.GetDouble(2);
+            var contaId = reader.GetInt32(0);
+            var saldo = reader.GetDouble(1);
 
-            var c = new ContaBancaria(ClienteService.Buscar(titularId), saldo);
-            c.Id = id;
+            var clienteId = reader.GetInt32(2);
+            var nome = reader.GetString(3);
+            var cpf = reader.GetString(4);
 
-            Contas.Add(c);
+            var cliente = new Cliente(nome, cpf);
+            cliente.Id = clienteId;
+
+            var conta = new ContaBancaria(cliente, saldo);
+            conta.Id = contaId;
+
+            Contas.Add(conta);
         }
 
         return Contas;
