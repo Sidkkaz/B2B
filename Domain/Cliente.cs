@@ -27,12 +27,18 @@ public class Cliente
         CPF = cpflimpo;
     }
 
-    public string CPFFormatado()
+    public string CPFFormatado(string CPF)
     {
         return CPF
         .Insert(9, "-")
         .Insert(6, ".")
         .Insert(3,".");
+    }
+
+    public string CPFLimpo(string CPF){
+        return CPF
+        .Replace(".","")
+        .Replace("-","");
     }
 
 }

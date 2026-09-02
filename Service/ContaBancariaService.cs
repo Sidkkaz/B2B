@@ -11,6 +11,7 @@ class ContaBancariaService{
     }
 
     public static void AtualizarSaldo(ContaBancaria c){
+        if(c.Saldo < 0) return;
         repo.Update(c);
     }
 

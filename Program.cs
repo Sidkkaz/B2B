@@ -79,9 +79,9 @@ class Entrada
 
         if(cpf.Length == 11 || cpf.Length == 14)
         {
-            cpfLimpo = cpf.Replace(".", "").Replace("-","");
+            cpfLimpo = Cliente.CPFLimpo(cpf);
 
-            if (!dB.ClienteExiste(cpfLimpo))
+            if (!ClienteService.ListarClientes().Where(x => c.CPF == cpfLimpo))
             {
                 Output("Vi que voce ainda nao tem cadastro!\n");
                 Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
