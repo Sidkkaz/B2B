@@ -44,6 +44,7 @@ public class AuthService
 
     public void CompletarCadastro(string cpf)
     {
+        Console.Clear();
         ConsoleIO.Output("Vi que voce ainda nao tem cadastro!\n");
         ConsoleIO.Output("Mas boas noticias! So preciso de um dado para finalizar seu cadastro.\n");
         ConsoleIO.Output("Me envie seu nome completo, pfv: ");

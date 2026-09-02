@@ -24,7 +24,7 @@ public class ContaBancariaService{
     }
 
     public void MostrarSaldo(Cliente c){
-        var conta = ListarContas().FirstOrDefault(x => x.Titular.CPF == c.CPF);
+        var conta = ListarContas().FirstOrDefault(x => x.Titular != null && x.Titular.CPF == c.CPF);
 
         if (conta == null)
             throw new Exception("Conta não encontrada");

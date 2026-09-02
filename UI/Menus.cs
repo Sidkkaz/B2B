@@ -8,7 +8,11 @@ public class Menus
 
     private ClienteService _ClienteService = new ClienteService();
     private ContaBancariaService ContaService = new ContaBancariaService();
-    private AuthService Auth = new AuthService();
+    private AuthService Auth;
+
+    public Menus(AuthService _auth){
+        this.Auth = _auth;
+    }
 
     static void Output(string t){
         Console.WriteLine($"{t}");
@@ -57,6 +61,7 @@ public class Menus
             Console.WriteLine("0 - Sair\n");
             Console.WriteLine("__________________\n");
             Console.WriteLine("Opcao: ");
+            if(Cliente == null) Output("Cliente vazio");
             
             try{
                 op = ConsoleIO.InputI();
