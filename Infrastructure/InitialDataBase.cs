@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace B2B.Infrastructure;
+
 public class DB
 {
     private readonly string _connectedString = "Data Source = app.db";

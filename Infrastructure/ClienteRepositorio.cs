@@ -1,3 +1,5 @@
+namespace B2B.Infrastructure;
+    
     class ClienteRepositorio : IRepositorio<Cliente>{
 
         private const string _connectedString = "Data Source = app.db";
