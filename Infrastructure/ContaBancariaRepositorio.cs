@@ -2,7 +2,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
     private const string _connectedString = "Data Source = app.db";
     
-    static void Add(ContaBancaria c){
+    public void Add(ContaBancaria c){
         
         using var connection = new SqliteConnection(_connectedString);
         connection.Open();
@@ -21,7 +21,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
         criarConta.ExecuteNonQuery();
     }
 
-    static void Remove(ContaBancaria c){
+    public void Remove(ContaBancaria c){
         using var connection = new SqliteConnection(_connectedString);
         connection.Open();
 
@@ -34,7 +34,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
     }
 
-    static List<ContaBancaria> Query(){
+    public List<ContaBancaria> Query(){
         using var connection = new SqliteConnection(_connectedString);
         connection.Open();
 
@@ -63,7 +63,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
         return Contas;
     }
 
-    static void Update(ContaBancaria c){
+    public void Update(ContaBancaria c){
         
         using var connection = new SqliteConnection(_connectedString);
         connection.Open();

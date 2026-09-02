@@ -2,42 +2,53 @@
 
         private const string _connectedString = "Data Source = app.db";
         
-        static void Add(Cliente c){
+        public void Add(Cliente c){
 
             using var connection = new SqliteConnection(_connectedString);
             connection.Open();
 
             var insert = connection.CreateCommand();
 
-            insert.CommandText = "Insert into cliente (nome, cpf) Values (@nome, @cpf)";
-            insert.Parameters.AddWithValue("@nome", cliente.Nome);
-            insert.Parameters.AddWithValue("@cpf", cliente.CPF);
+            insert.CommandText = """
+                INSERT INTO cliente (nome, cpf) 
+                VALUES (@nome, @cpf)
+                """;
+
+            insert.Parameters.AddWithValue("@nome", c.Nome);
+            insert.Parameters.AddWithValue("@cpf", c.CPF);
 
             insert.ExecuteNonQuery();
         }
 
-        static void Remove(Cliente c){
+        public void Remove(Cliente c){
             using var connection = new SqliteConnection(_connectedString);
             connection.Open();
 
             var sql = connection.CreateCommand();
 
-            sql.CommandText = "Delete FROM cliente WHERE cpf = @cpf";
-            sql.Parameters.AddWithValue("@cpf", c.CPF);
+            sql.CommandText = """
+                DELETE FROM cliente 
+                WHERE id = @id
+                """;
+
+            sql.Parameters.AddWithValue("@id", c.Id);
 
             sql.ExecuteNonQuery();
             
         }
 
-        static List<Cliente> Query(){
+        public List<Cliente> Query(){
             using var connection = new SqliteConnection(_connectedString);
             connection.Open();
 
-            var clientes = new List<Clientes>();
+            var clientes = new List<Cliente>();
 
             var busca = connection.CreateCommand();
 
-            busca.CommandText = "Select id, nome, cpf FROM cliente";
+            busca.CommandText = """
+                SELECT id, nome, cpf 
+                FROM cliente
+                """;
 
             using var reader = busca.ExecuteReader();
 
@@ -55,5 +66,5 @@
             return clientes;
         }
 
-        private void Update(ContaBancaria c);
+        private void Update(Cliente c){}
     }
