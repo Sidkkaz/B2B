@@ -9,8 +9,14 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
         var criarConta = connection.CreateCommand();
 
-        criarConta.CommandText = "insert into contabancaria (titular_id, saldo) values (@cpf, 0)";
-        criarConta.Parameters.AddWithValue("@cpf", titular.CPF);
+        criarConta.CommandText = """
+            INSERT INTO contabancaria 
+            (titular_id, saldo)
+            VALUES (@saldo, 0)
+        """;
+
+        criarConta.Parameters.AddWithValue("@titular_id", c.Titular.CPF);
+        criarConta.Parameters.AddWithValue("@saldo", c.Saldo);
 
         criarConta.ExecuteNonQuery();
     }
@@ -21,7 +27,7 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
         var sql = connection.CreateCommand();
 
-        sql.CommandText = "Delete FROM contabancaria WHERE id = @id";
+        sql.CommandText = "DELETE FROM contabancaria WHERE id = @id";
         sql.Parameters.AddWithValue("@id", c.Id);
 
         sql.ExecuteNonQuery();
@@ -36,11 +42,14 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
         var busca = connection.CreateCommand();
 
-        busca.CommandText = "Select id, titular_id, saldo FROM contabancaria";
+        busca.CommandText = """
+        SELECT id, titular_id, saldo 
+        FROM contabancaria
+        """;
 
         using var reader = busca.ExecuteReader();
 
-        if(reader.Read()){
+        while(reader.Read()){
             var id = reader.GetInt32(0);
             var titularId = reader.GetString(1);
             var saldo = reader.GetDouble(2);
@@ -61,10 +70,14 @@ class ContaBancariaRepositorio : IRepositorio<ContaBancaria>{
 
         var command = connection.CreateCommand();
 
-        command.CommandText = "UPDATE contabancaria SET saldo = @saldo WHERE titular_id = @cpf";
+        command.CommandText = """
+            UPDATE contabancaria 
+            SET saldo = @saldo 
+            WHERE id = @id
+            """;
 
         command.Parameters.AddWithValue("@saldo", c.Saldo);
-        command.Parameters.AddWithValue("@cpf", c.Titular.CPF);
+        command.Parameters.AddWithValue("@id", c.Id);
 
         command.ExecuteNonQuery();
 
