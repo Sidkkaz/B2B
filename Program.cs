@@ -29,16 +29,6 @@ class Programa
         }
         
     }
-    
-    static ContaBancaria CriarConta(Cliente titular, double saldo)
-    {
-        if(titular == null)
-            throw new Exception("Erro de titular");
-        
-        ContaBancaria c = new ContaBancaria(titular, saldo);
-        return c;
-    }
-    
 }
 
 class Entrada
